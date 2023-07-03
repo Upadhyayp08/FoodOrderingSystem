@@ -1,10 +1,10 @@
 const mysql = require("mysql2");
 
 var mysqlConnection = mysql.createPool({
-  host: "127.0.0.1",
-  user: "root",
-  password: "parth123",
-  database: "foodorderingsystem",
+  host: "db4free.net",
+  user: "foodordering",
+  password: "foodordering",
+  database: "foodordering",
   // increase the connection limit here
 });
 

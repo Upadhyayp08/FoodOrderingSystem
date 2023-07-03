@@ -6,8 +6,10 @@ const router = express.Router();
 const workordersController = require("../controllers/workorders.controller.js");
 //Upsert
 router.get("/get", workordersController.get);
+
+router.get("/orderget", workordersController.orderget);
 // Login_Check
-// router.post("/logincheck", workordersController.logincheck);
+router.post("/orderinsert", workordersController.orderinsert);
 // router.post("/update", [authJwt.verifyToken], workordersController.update);
 // router.post(
 //   "/batchdelete",

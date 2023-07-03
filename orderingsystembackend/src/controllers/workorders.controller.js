@@ -7,8 +7,8 @@ const XLSX = require("xlsx");
 const Workorders = require("../models/workorders.model.js");
 
 exports.get = function (req, res) {
-  //handles null error
   Workorders.get(req.body, function (err, result) {
+    console.log("result::>>", result);
     if (err)
       res.json({
         ResponseID: 0,
@@ -40,14 +40,48 @@ exports.get = function (req, res) {
   });
 };
 
-exports.insert = function (req, res) {
+exports.orderget = function (req, res) {
+  Workorders.orderget(req.body, function (err, result) {
+    console.log("result::>>", result);
+    if (err)
+      res.json({
+        ResponseID: 0,
+        ResponseCode: "ERROR",
+        ResponseData: [],
+        ResponseMessage: err,
+        ResponseJSON: "",
+        OtherData: "",
+      });
+
+    if (result[0][0]["ID"] == -1) {
+      res.json({
+        ResponseID: result[0][0]["ID"],
+        ResponseCode: "Error",
+        ResponseData: [],
+        ResponseMessage: "Data Doesn't Exists!",
+        ResponseJSON: "",
+        OtherData: "",
+      });
+    } else
+      res.json({
+        ResponseID: result[0][0]["recordExists"],
+        ResponseCode: "SUCCESS",
+        ResponseData: result,
+        ResponseMessage: "Successfull Login",
+        ResponseJSON: "",
+        OtherData: "",
+      });
+  });
+};
+
+exports.orderinsert = function (req, res) {
   //handles null error
   if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
     res
       .status(400)
       .send({ error: true, message: "Please provide all required field" });
   } else {
-    Workorders.insert(req.body, function (err, result) {
+    Workorders.orderinsert(req.body, function (err, result) {
       if (err)
         res.json({
           ResponseID: 0,
@@ -60,7 +94,7 @@ exports.insert = function (req, res) {
 
       if (result) {
         res.json({
-          ResponseID: result[0][0]["ID"],
+          ResponseID: result[0],
           ResponseCode: "SUCCESS",
           ResponseData: [],
           ResponseMessage: "Data Save successfully!",
@@ -69,7 +103,7 @@ exports.insert = function (req, res) {
         });
       } else
         res.json({
-          ResponseID: result[0][0]["Record exists"],
+          ResponseID: result,
           ResponseCode: "ERROR",
           ResponseData: [],
           ResponseMessage: "Something went wrong!",
