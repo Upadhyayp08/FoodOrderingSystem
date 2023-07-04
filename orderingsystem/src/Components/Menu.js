@@ -7,7 +7,7 @@ function Menu() {
   const [completeOrder, setCompleteOrder] = useState(false);
   useEffect(() => {
     axios
-      .get("http://localhost:3015/api/v1/workorders/get")
+      .get("https://fancy-jade-pants.cyclic.app/api/v1/workorders/get")
       .then((res) => {
         const mappedReceivingItems = res.data.ResponseData[0]?.map((item) => {
           const mappedItem = {
@@ -67,14 +67,17 @@ function Menu() {
     console.log("Itemssss", Item);
     setOrder([...order, Item]);
     axios
-      .post("http://localhost:3015/api/v1/workorders/orderinsert", {
-        ItemID: Item.ItemID,
-        Quantity: Item.ItemQuantity,
-      })
+      .post(
+        "https://fancy-jade-pants.cyclic.app/api/v1/workorders/orderinsert",
+        {
+          ItemID: Item.ItemID,
+          Quantity: Item.ItemQuantity,
+        }
+      )
       .then((res) => {
         console.log(res.data);
         axios
-          .get("http://localhost:3015/api/v1/workorders/orderget")
+          .get("https://fancy-jade-pants.cyclic.app/api/v1/workorders/orderget")
           .then((res) => {
             // setOrder(res.data.ResponseData[0]);
             console.log(res.data.ResponseData[0]);
