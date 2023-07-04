@@ -5,6 +5,7 @@ function Menu() {
   const [menuItems, setMenuItems] = useState([]);
   const [order, setOrder] = useState([]);
   const [completeOrder, setCompleteOrder] = useState(false);
+  const [hideOrderSummary, setHideOrderSummary] = useState(true);
   useEffect(() => {
     axios
       .get("https://fancy-jade-pants.cyclic.app/api/v1/workorders/get", {
@@ -121,7 +122,7 @@ function Menu() {
 
   return (
     <>
-      <div className="container">
+      {/* <div className="container">
         {menuItems.map((item, index) => (
           <div key={index} className="d-flex justify-content-center mb-3">
             <div className="p-2"></div>
@@ -188,7 +189,6 @@ function Menu() {
           </div>
         ))}
       </div>
-      {/* {order && {}} */}
       {order?.length > 0 && (
         <>
           <div className="text-center">
@@ -272,6 +272,151 @@ function Menu() {
             </>
           )}
         </>
+      )} */}
+      <div className="container">
+        <div className="row">
+          {menuItems.map((item, index) => (
+            <div key={index} className="col-lg-6 mb-3">
+              <div className="card">
+                <div className="row g-0">
+                  <div className="col-4">
+                    <img
+                      src={item.ItemImage}
+                      // height={"50px"}
+                      style={{ height: "250px" }}
+                      className="img-fluid"
+                      alt="ItemImage"
+                    />
+                  </div>
+                  <div className="col-8">
+                    <div className="card-body">
+                      <h5 className="card-title">{item.ItemName}</h5>
+                      <p className="card-text">{item.ItemDescription}</p>
+                      <p className="card-text">${item.ItemPrice}</p>
+                      <div className="input-group">
+                        <button
+                          type="button"
+                          className="btn btn-default btn-number"
+                          onClick={() => handleDecrease(index)}
+                        >
+                          -
+                        </button>
+                        <input
+                          type="text"
+                          className="form-control"
+                          value={item.ItemQuantity}
+                          readOnly
+                        />
+                        <button
+                          type="button"
+                          className="btn btn-default btn-number"
+                          onClick={() => handleIncrease(index)}
+                        >
+                          +
+                        </button>
+                      </div>
+                      <button
+                        className="btn btn-primary mt-3"
+                        disabled={completeOrder}
+                        onClick={() => handleAddToCart(item)}
+                      >
+                        Add to Cart
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {order?.length > 0 && (
+        <div className="container mt-5">
+          {hideOrderSummary && (
+            <>
+              <div className="text-center">
+                <h1>Order Summary</h1>
+              </div>
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Total</th>
+                    <td>Action</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {order?.map((item, index) => (
+                    <tr key={index}>
+                      <td>{item.ItemID}</td>
+                      <td>{item.ItemImage}</td>
+                      <td>{item.ItemName}</td>
+                      <td>{item.ItemPrice}</td>
+                      <td>{item.ItemQuantity}</td>
+                      <td>
+                        {parseInt(item.ItemQuantity) * parseInt(item.ItemPrice)}
+                      </td>
+                      <td>
+                        <button
+                          disabled={completeOrder}
+                          className="btn btn-danger"
+                        >
+                          <img
+                            width="25"
+                            height="25"
+                            onClick={() => handleDelete(index)}
+                            src="https://img.icons8.com/external-filled-color-icons-papa-vector/78/external-Delete-Button-interface-filled-color-icons-papa-vector.png"
+                            alt="Delete Button"
+                          />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td>Total</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{total}</td>
+                  </tr>
+                </tfoot>
+              </table>
+            </>
+          )}
+          {hideOrderSummary && (
+            <>
+              <div className="text-center">
+                <button
+                  className="btn btn-primary"
+                  onClick={(e) => (
+                    setCompleteOrder(!completeOrder),
+                    setHideOrderSummary(!hideOrderSummary)
+                  )}
+                >
+                  Complete Order
+                </button>
+              </div>
+            </>
+          )}
+
+          {completeOrder && (
+            <>
+              <div className="text-center mt-5">
+                <h3>Your Order has been Successfully Placed</h3>
+              </div>
+              <div className="text-center">Your Estimated Time is 43 mins</div>
+              <div className="text-center">Your Order Total is: {total}</div>
+            </>
+          )}
+        </div>
       )}
     </>
   );
