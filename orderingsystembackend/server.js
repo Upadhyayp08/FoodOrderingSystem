@@ -27,14 +27,14 @@ process.on("uncaughtException", (err) => {
 //   allowedHeaders: "Content-Type, Authorization", // Specify the allowed request headers
 // };
 
+const app = express();
+
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*"); // Replace '*' with the appropriate origin(s) if possible
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   next();
 });
-
-const app = express();
 
 app.use(cors());
 
