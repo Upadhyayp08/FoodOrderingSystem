@@ -7,7 +7,13 @@ function Menu() {
   const [completeOrder, setCompleteOrder] = useState(false);
   useEffect(() => {
     axios
-      .get("https://fancy-jade-pants.cyclic.app/api/v1/workorders/get")
+      .get("https://fancy-jade-pants.cyclic.app/api/v1/workorders/get", {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+          "Access-Control-Allow-Headers": "Content-Type",
+        },
+      })
       .then((res) => {
         const mappedReceivingItems = res.data.ResponseData[0]?.map((item) => {
           const mappedItem = {
@@ -72,12 +78,28 @@ function Menu() {
         {
           ItemID: Item.ItemID,
           Quantity: Item.ItemQuantity,
+        },
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+            "Access-Control-Allow-Headers": "Content-Type",
+          },
         }
       )
       .then((res) => {
         console.log(res.data);
         axios
-          .get("https://fancy-jade-pants.cyclic.app/api/v1/workorders/orderget")
+          .get(
+            "https://fancy-jade-pants.cyclic.app/api/v1/workorders/orderget",
+            {
+              headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+                "Access-Control-Allow-Headers": "Content-Type",
+              },
+            }
+          )
           .then((res) => {
             // setOrder(res.data.ResponseData[0]);
             console.log(res.data.ResponseData[0]);
