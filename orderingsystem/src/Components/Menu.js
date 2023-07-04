@@ -6,6 +6,7 @@ function Menu() {
   const [order, setOrder] = useState([]);
   const [completeOrder, setCompleteOrder] = useState(false);
   const [hideOrderSummary, setHideOrderSummary] = useState(true);
+  // const [hideMenu, setHideMenu] = useState(true);
   useEffect(() => {
     axios
       .get("https://fancy-jade-pants.cyclic.app/api/v1/workorders/get", {
@@ -273,63 +274,70 @@ function Menu() {
           )}
         </>
       )} */}
-      <div className="container">
-        <div className="row">
-          {menuItems.map((item, index) => (
-            <div key={index} className="col-lg-6 mb-3">
-              <div className="card">
-                <div className="row g-0">
-                  <div className="col-4">
-                    <img
-                      src={item.ItemImage}
-                      // height={"50px"}
-                      style={{ height: "250px" }}
-                      className="img-fluid"
-                      alt="ItemImage"
-                    />
-                  </div>
-                  <div className="col-8">
-                    <div className="card-body">
-                      <h5 className="card-title">{item.ItemName}</h5>
-                      <p className="card-text">{item.ItemDescription}</p>
-                      <p className="card-text">${item.ItemPrice}</p>
-                      <div className="input-group">
-                        <button
-                          type="button"
-                          className="btn btn-default btn-number"
-                          onClick={() => handleDecrease(index)}
-                        >
-                          -
-                        </button>
-                        <input
-                          type="text"
-                          className="form-control"
-                          value={item.ItemQuantity}
-                          readOnly
+      {hideOrderSummary && (
+        <>
+          <div className="container mt-5">
+            <div className="text-center mb-4">
+              <h1>Menu</h1>
+            </div>
+            <div className="row">
+              {menuItems.map((item, index) => (
+                <div key={index} className="col-lg-6 mb-3">
+                  <div className="card">
+                    <div className="row g-0">
+                      <div className="col-4">
+                        <img
+                          src={item.ItemImage}
+                          // height={"50px"}
+                          style={{ height: "250px" }}
+                          className="img-fluid"
+                          alt="ItemImage"
                         />
-                        <button
-                          type="button"
-                          className="btn btn-default btn-number"
-                          onClick={() => handleIncrease(index)}
-                        >
-                          +
-                        </button>
                       </div>
-                      <button
-                        className="btn btn-primary mt-3"
-                        disabled={completeOrder}
-                        onClick={() => handleAddToCart(item)}
-                      >
-                        Add to Cart
-                      </button>
+                      <div className="col-8">
+                        <div className="card-body">
+                          <h5 className="card-title">{item.ItemName}</h5>
+                          <p className="card-text">{item.ItemDescription}</p>
+                          <p className="card-text">${item.ItemPrice}</p>
+                          <div className="input-group">
+                            <button
+                              type="button"
+                              className="btn btn-default btn-number"
+                              onClick={() => handleDecrease(index)}
+                            >
+                              -
+                            </button>
+                            <input
+                              type="text"
+                              className="form-control"
+                              value={item.ItemQuantity}
+                              readOnly
+                            />
+                            <button
+                              type="button"
+                              className="btn btn-default btn-number"
+                              onClick={() => handleIncrease(index)}
+                            >
+                              +
+                            </button>
+                          </div>
+                          <button
+                            className="btn btn-primary mt-3"
+                            disabled={completeOrder}
+                            onClick={() => handleAddToCart(item)}
+                          >
+                            Add to Cart
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
+          </div>
+        </>
+      )}
 
       {order?.length > 0 && (
         <div className="container mt-5">
