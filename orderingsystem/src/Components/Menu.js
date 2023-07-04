@@ -153,6 +153,7 @@ function Menu() {
               <div className="mt-3">
                 <button
                   className="btn btn-primary mt-5"
+                  disabled={completeOrder}
                   onClick={() => handleAddToCart(item)}
                 >
                   Add to Cart
@@ -196,11 +197,15 @@ function Menu() {
                             parseInt(item.ItemPrice)}
                         </td>
                         <td>
-                          <button>
+                          <button
+                            disabled={completeOrder}
+                            // style={{ border: "none" }}
+                            style={{ border: "none" }}
+                            className="btn btn-danger"
+                          >
                             <img
                               width="25"
                               height="25"
-                              style={{ border: "none" }}
                               onClick={() => handleDelete(index)}
                               src="https://img.icons8.com/external-filled-color-icons-papa-vector/78/external-Delete-Button-interface-filled-color-icons-papa-vector.png"
                               alt="external-Delete-Button-interface-filled-color-icons-papa-vector"
