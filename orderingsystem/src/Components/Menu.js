@@ -362,7 +362,14 @@ function Menu() {
                   {order?.map((item, index) => (
                     <tr key={index}>
                       <td>{item.ItemID}</td>
-                      <td>{item.ItemImage}</td>
+                      <td>
+                        <img
+                          src={item.ItemImage}
+                          height="45px"
+                          width={"60px"}
+                          className="img-fluid"
+                        ></img>
+                      </td>
                       <td>{item.ItemName}</td>
                       <td>{item.ItemPrice}</td>
                       <td>{item.ItemQuantity}</td>
